@@ -60,19 +60,32 @@ This creates training, validation, and test datasets in `data/processed/`.
 python src/models/fine_tuned_model.py
 ```
 
-**Training Options (Optimized for Speed):**
+**Training Options (CPU-Optimized & Resource-Aware):**
 ```bash
-# Quick training (1 epoch, ~2-3 min GPU / 8-10 min CPU)
+# Quick training - Auto-adjusts batch size for your system
 python src/models/fine_tuned_model.py --quick
 
-# Standard training (3 epochs, ~3-5 min GPU / 10-15 min CPU) - DEFAULT
+# Standard training (3 epochs) - Auto-adjusts batch size
 python src/models/fine_tuned_model.py
 
-# Full training (10 epochs for production, ~10-15 min GPU / 30-45 min CPU)
+# Full training (10 epochs for production)
 python src/models/fine_tuned_model.py --epochs 10
+
+# Manual batch size (if needed)
+python src/models/fine_tuned_model.py --quick --batch-size 4
 ```
 
-The trained model is saved to `models/expense_classifier/`.
+**System Auto-Detection:**
+- Automatically detects CPU cores and RAM
+- Adjusts batch size to prevent OOM errors
+- Disables GPU-specific optimizations on CPU
+- Pre-tokenizes data for efficiency
+- Creates visualizations after training
+
+**For Limited Resources (< 8GB RAM):**
+The system automatically uses smaller batch sizes (2-4) to fit in memory.
+
+The trained model is saved to `models/expense_classifier/` with visualizations in `visualizations/`.
 
 #### 3. Evaluate the Model
 

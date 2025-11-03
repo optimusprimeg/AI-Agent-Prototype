@@ -1,10 +1,13 @@
 """
 Fine-Tuned Expense Categorization Model
 Uses DistilBERT with LoRA for parameter-efficient fine-tuning.
+Optimized for CPU with limited RAM (under 16GB).
 """
 
 import json
 import torch
+import psutil
+import os
 from torch.utils.data import Dataset, DataLoader
 from transformers import (
     AutoTokenizer, 
@@ -17,36 +20,59 @@ from peft import LoraConfig, get_peft_model, TaskType
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 from pathlib import Path
 import numpy as np
+from tqdm import tqdm
 
 
 class ExpenseDataset(Dataset):
-    """Dataset for expense categorization."""
+    """Dataset for expense categorization with memory-efficient tokenization."""
     
-    def __init__(self, data_path: Path, tokenizer, label2id: dict):
-        """Initialize dataset."""
+    def __init__(self, data_path: Path, tokenizer, label2id: dict, precompute_encodings: bool = True):
+        """Initialize dataset with optional pre-tokenization for memory efficiency."""
         with open(data_path, 'r') as f:
             self.data = json.load(f)
         self.tokenizer = tokenizer
         self.label2id = label2id
+        self.precompute_encodings = precompute_encodings
+        
+        # Pre-tokenize to avoid repeated tokenization during training
+        if precompute_encodings:
+            print(f"Pre-tokenizing {len(self.data)} samples for memory efficiency...")
+            self.encodings = []
+            for item in tqdm(self.data, desc="Tokenizing", leave=False):
+                encoding = self.tokenizer(
+                    item['item'],
+                    padding='max_length',
+                    truncation=True,
+                    max_length=64,  # Reduced from 128 for memory savings
+                    return_tensors='pt'
+                )
+                self.encodings.append({
+                    'input_ids': encoding['input_ids'].flatten(),
+                    'attention_mask': encoding['attention_mask'].flatten(),
+                    'labels': torch.tensor(self.label2id[item['category']])
+                })
     
     def __len__(self):
         return len(self.data)
     
     def __getitem__(self, idx):
-        item = self.data[idx]
-        encoding = self.tokenizer(
-            item['item'],
-            padding='max_length',
-            truncation=True,
-            max_length=128,
-            return_tensors='pt'
-        )
-        
-        return {
-            'input_ids': encoding['input_ids'].flatten(),
-            'attention_mask': encoding['attention_mask'].flatten(),
-            'labels': torch.tensor(self.label2id[item['category']])
-        }
+        if self.precompute_encodings:
+            return self.encodings[idx]
+        else:
+            item = self.data[idx]
+            encoding = self.tokenizer(
+                item['item'],
+                padding='max_length',
+                truncation=True,
+                max_length=64,
+                return_tensors='pt'
+            )
+            
+            return {
+                'input_ids': encoding['input_ids'].flatten(),
+                'attention_mask': encoding['attention_mask'].flatten(),
+                'labels': torch.tensor(self.label2id[item['category']])
+            }
 
 
 class ExpenseCategorizationModel:
@@ -60,6 +86,40 @@ class ExpenseCategorizationModel:
         self.trainer = None
         self.label2id = {}
         self.id2label = {}
+    
+    def get_system_info(self):
+        """Get system resource information."""
+        cpu_count = os.cpu_count() or 4
+        memory_gb = psutil.virtual_memory().total / (1024**3)
+        has_cuda = torch.cuda.is_available()
+        
+        return {
+            'cpu_cores': cpu_count,
+            'memory_gb': memory_gb,
+            'has_cuda': has_cuda
+        }
+    
+    def get_optimal_batch_size(self, memory_gb: float, has_cuda: bool, quick_mode: bool):
+        """Calculate optimal batch size based on available resources."""
+        if has_cuda:
+            # GPU has its own memory
+            return 64 if quick_mode else 32
+        else:
+            # CPU mode - be conservative with batch size
+            if memory_gb < 8:
+                return 4 if quick_mode else 2
+            elif memory_gb < 16:
+                return 8 if quick_mode else 4
+            else:
+                return 16 if quick_mode else 8
+    
+    def get_dataloader_workers(self, cpu_cores: int, has_cuda: bool):
+        """Get optimal number of DataLoader workers."""
+        if has_cuda:
+            return min(4, cpu_cores)
+        else:
+            # For CPU training, limit workers to avoid overhead
+            return min(2, max(1, cpu_cores // 2))
         
     def prepare_labels(self, train_data_path: Path):
         """Prepare label mappings from training data."""
@@ -119,28 +179,52 @@ class ExpenseCategorizationModel:
         }
     
     def train(self, train_path: Path, val_path: Path, output_dir: Path, 
-              epochs: int = 3, batch_size: int = 32):
-        """Train the model."""
+              epochs: int = 3, batch_size: int = None, quick_mode: bool = False):
+        """Train the model with CPU-optimized settings."""
+        
+        # Get system information
+        sys_info = self.get_system_info()
+        print(f"\n{'='*60}")
+        print(f"System Resources:")
+        print(f"  CPU Cores: {sys_info['cpu_cores']}")
+        print(f"  RAM: {sys_info['memory_gb']:.1f} GB")
+        print(f"  CUDA Available: {sys_info['has_cuda']}")
+        print(f"{'='*60}\n")
+        
+        # Auto-adjust batch size if not specified
+        if batch_size is None:
+            batch_size = self.get_optimal_batch_size(
+                sys_info['memory_gb'], 
+                sys_info['has_cuda'],
+                quick_mode
+            )
+            print(f"Auto-adjusted batch size: {batch_size} (based on {sys_info['memory_gb']:.1f}GB RAM)")
+        
         # Prepare labels
         categories = self.prepare_labels(train_path)
         
         # Setup model
         self.setup_model(num_labels=len(categories))
         
-        # Prepare datasets
-        train_dataset = ExpenseDataset(train_path, self.tokenizer, self.label2id)
-        val_dataset = ExpenseDataset(val_path, self.tokenizer, self.label2id)
+        # Prepare datasets with pre-tokenization for efficiency
+        print("\nPreparing training data...")
+        train_dataset = ExpenseDataset(train_path, self.tokenizer, self.label2id, precompute_encodings=True)
+        print("Preparing validation data...")
+        val_dataset = ExpenseDataset(val_path, self.tokenizer, self.label2id, precompute_encodings=True)
         
-        # Training arguments - optimized for faster training
+        # Get optimal DataLoader workers
+        num_workers = self.get_dataloader_workers(sys_info['cpu_cores'], sys_info['has_cuda'])
+        
+        # Training arguments - CPU-optimized
         training_args = TrainingArguments(
             output_dir=str(output_dir),
             num_train_epochs=epochs,
             per_device_train_batch_size=batch_size,
             per_device_eval_batch_size=batch_size,
-            warmup_steps=50,  # Reduced from 100 for faster training
+            warmup_steps=min(50, len(train_dataset) // batch_size // 2),  # Adaptive warmup
             weight_decay=0.01,
             logging_dir=str(output_dir / 'logs'),
-            logging_steps=100,  # Less frequent logging for speed
+            logging_steps=max(10, len(train_dataset) // batch_size // 5),  # Adaptive logging
             eval_strategy="epoch",
             save_strategy="epoch",
             load_best_model_at_end=True,
@@ -148,8 +232,21 @@ class ExpenseCategorizationModel:
             greater_is_better=True,
             push_to_hub=False,
             report_to="none",
-            fp16=torch.cuda.is_available(),  # Use mixed precision if GPU available
+            fp16=False,  # Disable FP16 - not well supported on CPU
+            dataloader_num_workers=num_workers,
+            dataloader_pin_memory=False,  # Critical: Disable pin_memory for CPU
+            remove_unused_columns=True,
+            disable_tqdm=False,  # Enable progress bars
+            save_total_limit=2,  # Save only 2 checkpoints to save disk space
+            gradient_accumulation_steps=1,  # No accumulation for simplicity
         )
+        
+        print(f"\nTraining Configuration:")
+        print(f"  Batch size: {batch_size}")
+        print(f"  Epochs: {epochs}")
+        print(f"  DataLoader workers: {num_workers}")
+        print(f"  Pin memory: False (CPU mode)")
+        print(f"  FP16: False (CPU compatibility)")
         
         # Initialize trainer
         self.trainer = Trainer(
@@ -161,12 +258,29 @@ class ExpenseCategorizationModel:
             callbacks=[EarlyStoppingCallback(early_stopping_patience=3)]
         )
         
-        # Train
-        print("\nStarting training...")
+        # Train with progress visualization
+        print(f"\n{'='*60}")
+        print("Starting training...")
+        print(f"{'='*60}\n")
         train_result = self.trainer.train()
+        
+        # Display training summary
+        print(f"\n{'='*60}")
+        print("Training Complete!")
+        print(f"{'='*60}")
+        print(f"Training loss: {train_result.training_loss:.4f}")
+        print(f"Training samples: {len(train_dataset)}")
+        print(f"Training steps: {train_result.global_step}")
         
         # Save model
         self.save_model(output_dir)
+        
+        # Create visualizations
+        try:
+            from ..utils.visualizer import create_all_visualizations
+            create_all_visualizations(output_dir, train_path.parent)
+        except Exception as e:
+            print(f"Note: Could not create visualizations: {e}")
         
         return train_result
     
@@ -239,27 +353,31 @@ def main():
     """Train the expense categorization model."""
     import argparse
     
-    parser = argparse.ArgumentParser(description='Train expense categorization model')
+    parser = argparse.ArgumentParser(description='Train expense categorization model (CPU-optimized)')
     parser.add_argument('--epochs', type=int, default=3, 
-                       help='Number of training epochs (default: 3 for fast training)')
-    parser.add_argument('--batch-size', type=int, default=32,
-                       help='Batch size for training (default: 32)')
+                       help='Number of training epochs (default: 3)')
+    parser.add_argument('--batch-size', type=int, default=None,
+                       help='Batch size (auto-adjusted if not specified)')
     parser.add_argument('--quick', action='store_true',
-                       help='Quick training mode (1 epoch, larger batch size)')
+                       help='Quick training mode (1 epoch, auto batch size)')
     args = parser.parse_args()
     
     # Quick mode overrides
     if args.quick:
         epochs = 1
-        batch_size = 64
-        print("\n🚀 Quick training mode enabled (1 epoch, batch size 64)")
-        print("   Expected time: 2-3 minutes (GPU) or 8-10 minutes (CPU)")
+        batch_size = args.batch_size  # Will be auto-adjusted
+        quick_mode = True
+        print("\n🚀 Quick training mode enabled")
+        print("   Batch size will be auto-adjusted for your system")
     else:
         epochs = args.epochs
         batch_size = args.batch_size
-        print(f"\n⚙️  Training with {epochs} epochs, batch size {batch_size}")
-        if epochs == 3:
-            print("   Expected time: 3-5 minutes (GPU) or 10-15 minutes (CPU)")
+        quick_mode = False
+        if batch_size is None:
+            print(f"\n⚙️  Training with {epochs} epochs")
+            print("   Batch size will be auto-adjusted for your system")
+        else:
+            print(f"\n⚙️  Training with {epochs} epochs, batch size {batch_size}")
     
     # Paths
     base_dir = Path(__file__).parent.parent.parent  # Go up to project root
@@ -269,16 +387,18 @@ def main():
     # Initialize model
     model = ExpenseCategorizationModel()
     
-    # Train
+    # Train with CPU-optimized settings
     model.train(
         train_path=data_dir / 'train.json',
         val_path=data_dir / 'val.json',
         output_dir=model_dir,
         epochs=epochs,
-        batch_size=batch_size
+        batch_size=batch_size,
+        quick_mode=quick_mode
     )
     
-    print("\nTraining complete!")
+    print("\n✅ Training complete!")
+
 
 
 if __name__ == "__main__":
