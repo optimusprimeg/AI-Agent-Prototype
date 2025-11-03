@@ -187,7 +187,7 @@ class ModelEvaluator:
 
 def main():
     """Run model evaluation."""
-    base_dir = Path(__file__).parent.parent
+    base_dir = Path(__file__).parent.parent  # Go up to project root
     model_dir = base_dir / 'models' / 'expense_classifier'
     data_dir = base_dir / 'data' / 'processed'
     test_data_path = data_dir / 'test.json'

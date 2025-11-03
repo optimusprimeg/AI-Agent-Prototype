@@ -237,7 +237,7 @@ class ExpenseCategorizationModel:
 def main():
     """Train the expense categorization model."""
     # Paths
-    base_dir = Path(__file__).parent.parent
+    base_dir = Path(__file__).parent.parent.parent  # Go up to project root
     data_dir = base_dir / 'data' / 'processed'
     model_dir = base_dir / 'models' / 'expense_classifier'
     

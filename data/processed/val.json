@@ -1,0 +1,722 @@
+[
+  {
+    "item": "Coffee and pastry",
+    "category": "Food"
+  },
+  {
+    "item": "Electrical work (premium)",
+    "category": "Housing"
+  },
+  {
+    "item": "Sporting goods",
+    "category": "Shopping"
+  },
+  {
+    "item": "Video game purchase item",
+    "category": "Entertainment"
+  },
+  {
+    "item": "House cleaning item",
+    "category": "Housing"
+  },
+  {
+    "item": "Purchase: Music lessons",
+    "category": "Education"
+  },
+  {
+    "item": "Jewelry - regular",
+    "category": "Shopping"
+  },
+  {
+    "item": "Purchase: First aid supplies",
+    "category": "Healthcare"
+  },
+  {
+    "item": "Chicken tikka masala (premium)",
+    "category": "Food"
+  },
+  {
+    "item": "Parking garage - regular",
+    "category": "Transportation"
+  },
+  {
+    "item": "Deli sandwich item",
+    "category": "Food"
+  },
+  {
+    "item": "Office supplies item",
+    "category": "Shopping"
+  },
+  {
+    "item": "Roof repair - regular",
+    "category": "Housing"
+  },
+  {
+    "item": "Musical instrument",
+    "category": "Shopping"
+  },
+  {
+    "item": "Furniture item",
+    "category": "Shopping"
+  },
+  {
+    "item": "Electronics item",
+    "category": "Shopping"
+  },
+  {
+    "item": "Home insurance",
+    "category": "Housing"
+  },
+  {
+    "item": "Medical insurance premium (premium)",
+    "category": "Healthcare"
+  },
+  {
+    "item": "Trash collection (premium)",
+    "category": "Utilities"
+  },
+  {
+    "item": "Purchase: Books and stationery",
+    "category": "Shopping"
+  },
+  {
+    "item": "Purchase: Cosmetics",
+    "category": "Shopping"
+  },
+  {
+    "item": "Purchase: Magazine subscription",
+    "category": "Entertainment"
+  },
+  {
+    "item": "Bus pass",
+    "category": "Transportation"
+  },
+  {
+    "item": "Landline phone item",
+    "category": "Utilities"
+  },
+  {
+    "item": "School supplies",
+    "category": "Education"
+  },
+  {
+    "item": "Online course (premium)",
+    "category": "Education"
+  },
+  {
+    "item": "Home decor item",
+    "category": "Shopping"
+  },
+  {
+    "item": "Soup and bread (premium)",
+    "category": "Food"
+  },
+  {
+    "item": "Personal care items - regular",
+    "category": "Shopping"
+  },
+  {
+    "item": "Metro card",
+    "category": "Transportation"
+  },
+  {
+    "item": "Landline phone",
+    "category": "Utilities"
+  },
+  {
+    "item": "Electronics - regular",
+    "category": "Shopping"
+  },
+  {
+    "item": "Spotify premium item",
+    "category": "Entertainment"
+  },
+  {
+    "item": "House cleaning (premium)",
+    "category": "Housing"
+  },
+  {
+    "item": "Amusement park item",
+    "category": "Entertainment"
+  },
+  {
+    "item": "Purchase: Appliance repair",
+    "category": "Housing"
+  },
+  {
+    "item": "Plumbing service item",
+    "category": "Housing"
+  },
+  {
+    "item": "Tutoring services item",
+    "category": "Education"
+  },
+  {
+    "item": "Mobile data plan - regular",
+    "category": "Utilities"
+  },
+  {
+    "item": "Purchase: Mobile data plan",
+    "category": "Utilities"
+  },
+  {
+    "item": "Spotify premium - regular",
+    "category": "Entertainment"
+  },
+  {
+    "item": "Pizza delivery item",
+    "category": "Food"
+  },
+  {
+    "item": "Art gallery (premium)",
+    "category": "Entertainment"
+  },
+  {
+    "item": "Dental cleaning - regular",
+    "category": "Healthcare"
+  },
+  {
+    "item": "Medical insurance premium",
+    "category": "Healthcare"
+  },
+  {
+    "item": "Fast food meal (premium)",
+    "category": "Food"
+  },
+  {
+    "item": "Music lessons (premium)",
+    "category": "Education"
+  },
+  {
+    "item": "Musical instrument",
+    "category": "Shopping"
+  },
+  {
+    "item": "Doctor visit copay (premium)",
+    "category": "Healthcare"
+  },
+  {
+    "item": "Art classes item",
+    "category": "Education"
+  },
+  {
+    "item": "Towels (premium)",
+    "category": "Shopping"
+  },
+  {
+    "item": "Purchase: Oil change",
+    "category": "Transportation"
+  },
+  {
+    "item": "Bread and milk",
+    "category": "Food"
+  },
+  {
+    "item": "Parking garage",
+    "category": "Transportation"
+  },
+  {
+    "item": "Purchase: Furniture",
+    "category": "Shopping"
+  },
+  {
+    "item": "Purchase: Ride share",
+    "category": "Transportation"
+  },
+  {
+    "item": "Chiropractor",
+    "category": "Healthcare"
+  },
+  {
+    "item": "Lock replacement item",
+    "category": "Housing"
+  },
+  {
+    "item": "Home repairs",
+    "category": "Housing"
+  },
+  {
+    "item": "Purchase: Jewelry",
+    "category": "Shopping"
+  },
+  {
+    "item": "Salad bowl item",
+    "category": "Food"
+  },
+  {
+    "item": "Lab fees item",
+    "category": "Education"
+  },
+  {
+    "item": "Burrito bowl",
+    "category": "Food"
+  },
+  {
+    "item": "Accessories item",
+    "category": "Shopping"
+  },
+  {
+    "item": "Purchase: Arcade games",
+    "category": "Entertainment"
+  },
+  {
+    "item": "Heating bill (premium)",
+    "category": "Utilities"
+  },
+  {
+    "item": "Workshop fee",
+    "category": "Education"
+  },
+  {
+    "item": "Purchase: Tutoring services",
+    "category": "Education"
+  },
+  {
+    "item": "Purchase: HVAC maintenance",
+    "category": "Housing"
+  },
+  {
+    "item": "Towels",
+    "category": "Shopping"
+  },
+  {
+    "item": "First aid supplies (premium)",
+    "category": "Healthcare"
+  },
+  {
+    "item": "Contact lenses",
+    "category": "Healthcare"
+  },
+  {
+    "item": "Purchase: Pharmacy items",
+    "category": "Healthcare"
+  },
+  {
+    "item": "Tutoring services - regular",
+    "category": "Education"
+  },
+  {
+    "item": "Car wash - regular",
+    "category": "Transportation"
+  },
+  {
+    "item": "Textbooks - regular",
+    "category": "Education"
+  },
+  {
+    "item": "Painting service - regular",
+    "category": "Housing"
+  },
+  {
+    "item": "Pet supplies item",
+    "category": "Shopping"
+  },
+  {
+    "item": "Purchase: Musical instrument",
+    "category": "Shopping"
+  },
+  {
+    "item": "Purchase: Pharmacy items",
+    "category": "Healthcare"
+  },
+  {
+    "item": "Arcade games",
+    "category": "Entertainment"
+  },
+  {
+    "item": "Certification exam item",
+    "category": "Education"
+  },
+  {
+    "item": "Sports event ticket item",
+    "category": "Entertainment"
+  },
+  {
+    "item": "Health screening (premium)",
+    "category": "Healthcare"
+  },
+  {
+    "item": "WiFi service - regular",
+    "category": "Utilities"
+  },
+  {
+    "item": "Purchase: Ice cream cone",
+    "category": "Food"
+  },
+  {
+    "item": "Video game purchase item",
+    "category": "Entertainment"
+  },
+  {
+    "item": "Student activities (premium)",
+    "category": "Education"
+  },
+  {
+    "item": "Landline phone - regular",
+    "category": "Utilities"
+  },
+  {
+    "item": "Cable TV - regular",
+    "category": "Utilities"
+  },
+  {
+    "item": "Purchase: Roof repair",
+    "category": "Housing"
+  },
+  {
+    "item": "Vaccination - regular",
+    "category": "Healthcare"
+  },
+  {
+    "item": "Lock replacement",
+    "category": "Housing"
+  },
+  {
+    "item": "Purchase: Streaming subscription",
+    "category": "Utilities"
+  },
+  {
+    "item": "Purchase: Bagel with cream cheese",
+    "category": "Food"
+  },
+  {
+    "item": "Theater show item",
+    "category": "Entertainment"
+  },
+  {
+    "item": "Textbooks",
+    "category": "Education"
+  },
+  {
+    "item": "Home decor item",
+    "category": "Shopping"
+  },
+  {
+    "item": "Home security item",
+    "category": "Utilities"
+  },
+  {
+    "item": "Wine tasting - regular",
+    "category": "Entertainment"
+  },
+  {
+    "item": "Vegetables - regular",
+    "category": "Food"
+  },
+  {
+    "item": "Purchase: Gasoline",
+    "category": "Transportation"
+  },
+  {
+    "item": "Purchase: Vegetables",
+    "category": "Food"
+  },
+  {
+    "item": "Sushi platter",
+    "category": "Food"
+  },
+  {
+    "item": "Mental health counseling - regular",
+    "category": "Healthcare"
+  },
+  {
+    "item": "Rent payment item",
+    "category": "Housing"
+  },
+  {
+    "item": "Roof repair (premium)",
+    "category": "Housing"
+  },
+  {
+    "item": "Fresh fruit - regular",
+    "category": "Food"
+  },
+  {
+    "item": "Purchase: Burrito bowl",
+    "category": "Food"
+  },
+  {
+    "item": "Painting service - regular",
+    "category": "Housing"
+  },
+  {
+    "item": "Train ticket (premium)",
+    "category": "Transportation"
+  },
+  {
+    "item": "Purchase: Tutoring services",
+    "category": "Education"
+  },
+  {
+    "item": "Phone bill item",
+    "category": "Utilities"
+  },
+  {
+    "item": "Vehicle inspection item",
+    "category": "Transportation"
+  },
+  {
+    "item": "Burrito bowl - regular",
+    "category": "Food"
+  },
+  {
+    "item": "Theater show (premium)",
+    "category": "Entertainment"
+  },
+  {
+    "item": "Purchase: Workshop fee",
+    "category": "Education"
+  },
+  {
+    "item": "Home security",
+    "category": "Utilities"
+  },
+  {
+    "item": "Pest control (premium)",
+    "category": "Housing"
+  },
+  {
+    "item": "Gasoline item",
+    "category": "Transportation"
+  },
+  {
+    "item": "Sports event ticket item",
+    "category": "Entertainment"
+  },
+  {
+    "item": "Purchase: Electric bill",
+    "category": "Utilities"
+  },
+  {
+    "item": "Purchase: Train ticket",
+    "category": "Transportation"
+  },
+  {
+    "item": "Hardware store item",
+    "category": "Shopping"
+  },
+  {
+    "item": "Concert tickets - regular",
+    "category": "Entertainment"
+  },
+  {
+    "item": "Gas station fuel - regular",
+    "category": "Transportation"
+  },
+  {
+    "item": "Vaccination (premium)",
+    "category": "Healthcare"
+  },
+  {
+    "item": "Mini golf item",
+    "category": "Entertainment"
+  },
+  {
+    "item": "Physical therapy - regular",
+    "category": "Healthcare"
+  },
+  {
+    "item": "Purchase: Gas station fuel",
+    "category": "Transportation"
+  },
+  {
+    "item": "Purchase: House cleaning",
+    "category": "Housing"
+  },
+  {
+    "item": "HOA fees (premium)",
+    "category": "Housing"
+  },
+  {
+    "item": "Art supplies (premium)",
+    "category": "Shopping"
+  },
+  {
+    "item": "Zoo admission item",
+    "category": "Entertainment"
+  },
+  {
+    "item": "Comedy show - regular",
+    "category": "Entertainment"
+  },
+  {
+    "item": "Music lessons - regular",
+    "category": "Education"
+  },
+  {
+    "item": "Trash collection (premium)",
+    "category": "Utilities"
+  },
+  {
+    "item": "Tutoring services (premium)",
+    "category": "Education"
+  },
+  {
+    "item": "Purchase: Fish and chips",
+    "category": "Food"
+  },
+  {
+    "item": "Carpet cleaning",
+    "category": "Housing"
+  },
+  {
+    "item": "Physical therapy (premium)",
+    "category": "Healthcare"
+  },
+  {
+    "item": "Purchase: Cable TV",
+    "category": "Utilities"
+  },
+  {
+    "item": "Taxi fare item",
+    "category": "Transportation"
+  },
+  {
+    "item": "Sporting goods (premium)",
+    "category": "Shopping"
+  },
+  {
+    "item": "Taxi fare item",
+    "category": "Transportation"
+  },
+  {
+    "item": "Tuition payment",
+    "category": "Education"
+  },
+  {
+    "item": "Property tax item",
+    "category": "Housing"
+  },
+  {
+    "item": "Salad bowl (premium)",
+    "category": "Food"
+  },
+  {
+    "item": "Netflix subscription item",
+    "category": "Entertainment"
+  },
+  {
+    "item": "Purchase: Electrical work",
+    "category": "Housing"
+  },
+  {
+    "item": "Netflix subscription (premium)",
+    "category": "Entertainment"
+  },
+  {
+    "item": "Purchase: Urgent care",
+    "category": "Healthcare"
+  },
+  {
+    "item": "Purchase: Pizza delivery",
+    "category": "Food"
+  },
+  {
+    "item": "Pet supplies item",
+    "category": "Shopping"
+  },
+  {
+    "item": "Purchase: Gas bill",
+    "category": "Utilities"
+  },
+  {
+    "item": "Amusement park (premium)",
+    "category": "Entertainment"
+  },
+  {
+    "item": "Emergency room (premium)",
+    "category": "Healthcare"
+  },
+  {
+    "item": "Purchase: Educational software",
+    "category": "Education"
+  },
+  {
+    "item": "Cable TV",
+    "category": "Utilities"
+  },
+  {
+    "item": "Purchase: Car wash",
+    "category": "Transportation"
+  },
+  {
+    "item": "Mobile data plan item",
+    "category": "Utilities"
+  },
+  {
+    "item": "Bike rental",
+    "category": "Transportation"
+  },
+  {
+    "item": "Fried rice item",
+    "category": "Food"
+  },
+  {
+    "item": "Home insurance",
+    "category": "Housing"
+  },
+  {
+    "item": "Musical instrument item",
+    "category": "Shopping"
+  },
+  {
+    "item": "Electricity payment",
+    "category": "Utilities"
+  },
+  {
+    "item": "Art gallery - regular",
+    "category": "Entertainment"
+  },
+  {
+    "item": "Language classes",
+    "category": "Education"
+  },
+  {
+    "item": "Netflix subscription item",
+    "category": "Entertainment"
+  },
+  {
+    "item": "Purchase: Heating bill",
+    "category": "Utilities"
+  },
+  {
+    "item": "Purchase: Plumbing service",
+    "category": "Housing"
+  },
+  {
+    "item": "Workshop fee - regular",
+    "category": "Education"
+  },
+  {
+    "item": "Gas bill (premium)",
+    "category": "Utilities"
+  },
+  {
+    "item": "Health screening (premium)",
+    "category": "Healthcare"
+  },
+  {
+    "item": "Diesel fuel",
+    "category": "Transportation"
+  },
+  {
+    "item": "Car wash - regular",
+    "category": "Transportation"
+  },
+  {
+    "item": "Purchase: Lab tests",
+    "category": "Healthcare"
+  },
+  {
+    "item": "Mental health counseling (premium)",
+    "category": "Healthcare"
+  },
+  {
+    "item": "Doctor visit copay - regular",
+    "category": "Healthcare"
+  },
+  {
+    "item": "School supplies (premium)",
+    "category": "Education"
+  }
+]

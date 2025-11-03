@@ -42,6 +42,8 @@ cd AI-Agent-Prototype
 pip install -r requirements.txt
 ```
 
+**Important Note:** The first time you run the training script, it will download the DistilBERT model (~250MB) from HuggingFace. This requires an internet connection. The model will be cached locally for future use.
+
 ### Usage
 
 #### 1. Generate Synthetic Data

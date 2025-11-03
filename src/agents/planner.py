@@ -4,7 +4,15 @@ Responsible for reasoning about receipt content and planning the categorization 
 """
 
 from typing import List, Dict
-from ..utils.preprocessor import ReceiptPreprocessor
+import sys
+from pathlib import Path
+
+# Add parent directory to path for imports
+if __name__ == "__main__":
+    sys.path.append(str(Path(__file__).parent.parent))
+    from utils.preprocessor import ReceiptPreprocessor
+else:
+    from ..utils.preprocessor import ReceiptPreprocessor
 
 
 class PlannerAgent:
