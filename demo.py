@@ -64,18 +64,17 @@ def main():
             return 1
         
         # Step 2: Train Model
-        print("\n📝 Note: Model training will take approximately:")
-        print("   - GPU (8GB VRAM): 10-15 minutes")
-        print("   - CPU (16GB RAM): 30-45 minutes")
+        print("\n📝 Note: Model training time (optimized for speed):")
+        print("   - Quick mode (--quick): 2-3 minutes (GPU) or 8-10 minutes (CPU)")
+        print("   - Standard (3 epochs): 3-5 minutes (GPU) or 10-15 minutes (CPU)")
+        print("   - Full (10 epochs): Use --epochs 10 for production")
         
-        response = input("\nContinue with training? (y/n): ")
-        if response.lower() != 'y':
-            print("\n⚠️  Demo cancelled. Run 'python demo.py' again to continue.")
-            return 0
+        response = input("\nUse quick training mode? (y/n, default=y): ")
+        quick_flag = "--quick" if response.lower() != 'n' else ""
         
         if not run_command(
-            "python src/models/fine_tuned_model.py",
-            "Step 2/4: Training Fine-Tuned Model (This will take some time...)"
+            f"python src/models/fine_tuned_model.py {quick_flag}",
+            "Step 2/4: Training Fine-Tuned Model"
         ):
             return 1
         

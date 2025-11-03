@@ -119,7 +119,7 @@ class ExpenseCategorizationModel:
         }
     
     def train(self, train_path: Path, val_path: Path, output_dir: Path, 
-              epochs: int = 10, batch_size: int = 16):
+              epochs: int = 3, batch_size: int = 32):
         """Train the model."""
         # Prepare labels
         categories = self.prepare_labels(train_path)
@@ -131,23 +131,24 @@ class ExpenseCategorizationModel:
         train_dataset = ExpenseDataset(train_path, self.tokenizer, self.label2id)
         val_dataset = ExpenseDataset(val_path, self.tokenizer, self.label2id)
         
-        # Training arguments
+        # Training arguments - optimized for faster training
         training_args = TrainingArguments(
             output_dir=str(output_dir),
             num_train_epochs=epochs,
             per_device_train_batch_size=batch_size,
             per_device_eval_batch_size=batch_size,
-            warmup_steps=100,
+            warmup_steps=50,  # Reduced from 100 for faster training
             weight_decay=0.01,
             logging_dir=str(output_dir / 'logs'),
-            logging_steps=50,
+            logging_steps=100,  # Less frequent logging for speed
             eval_strategy="epoch",
             save_strategy="epoch",
             load_best_model_at_end=True,
             metric_for_best_model="accuracy",
             greater_is_better=True,
             push_to_hub=False,
-            report_to="none"
+            report_to="none",
+            fp16=torch.cuda.is_available(),  # Use mixed precision if GPU available
         )
         
         # Initialize trainer
@@ -236,6 +237,30 @@ class ExpenseCategorizationModel:
 
 def main():
     """Train the expense categorization model."""
+    import argparse
+    
+    parser = argparse.ArgumentParser(description='Train expense categorization model')
+    parser.add_argument('--epochs', type=int, default=3, 
+                       help='Number of training epochs (default: 3 for fast training)')
+    parser.add_argument('--batch-size', type=int, default=32,
+                       help='Batch size for training (default: 32)')
+    parser.add_argument('--quick', action='store_true',
+                       help='Quick training mode (1 epoch, larger batch size)')
+    args = parser.parse_args()
+    
+    # Quick mode overrides
+    if args.quick:
+        epochs = 1
+        batch_size = 64
+        print("\n🚀 Quick training mode enabled (1 epoch, batch size 64)")
+        print("   Expected time: 2-3 minutes (GPU) or 8-10 minutes (CPU)")
+    else:
+        epochs = args.epochs
+        batch_size = args.batch_size
+        print(f"\n⚙️  Training with {epochs} epochs, batch size {batch_size}")
+        if epochs == 3:
+            print("   Expected time: 3-5 minutes (GPU) or 10-15 minutes (CPU)")
+    
     # Paths
     base_dir = Path(__file__).parent.parent.parent  # Go up to project root
     data_dir = base_dir / 'data' / 'processed'
@@ -249,8 +274,8 @@ def main():
         train_path=data_dir / 'train.json',
         val_path=data_dir / 'val.json',
         output_dir=model_dir,
-        epochs=10,
-        batch_size=16
+        epochs=epochs,
+        batch_size=batch_size
     )
     
     print("\nTraining complete!")

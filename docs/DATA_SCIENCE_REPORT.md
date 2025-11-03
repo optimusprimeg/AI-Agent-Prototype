@@ -133,36 +133,45 @@ LoraConfig(
 
 **Training Script:** `src/models/fine_tuned_model.py`
 
-**Hyperparameters:**
+**Hyperparameters (Optimized for Speed):**
 ```python
 {
-    "num_train_epochs": 10,
-    "per_device_train_batch_size": 16,
-    "per_device_eval_batch_size": 16,
-    "learning_rate": 2e-5,  # Default AdamW
+    "num_train_epochs": 3,      # Default (fast), use --epochs 10 for production
+    "per_device_train_batch_size": 32,  # Increased for faster training
+    "per_device_eval_batch_size": 32,
+    "learning_rate": 2e-5,      # Default AdamW
     "weight_decay": 0.01,
-    "warmup_steps": 100,
+    "warmup_steps": 50,         # Reduced for faster convergence
     "max_length": 128,
-    "early_stopping_patience": 3
+    "early_stopping_patience": 3,
+    "fp16": True                # Mixed precision if GPU available
 }
 ```
+
+**Training Modes:**
+- **Quick Mode (`--quick`):** 1 epoch, batch size 64, ~2-3 min (GPU)
+- **Standard Mode (default):** 3 epochs, batch size 32, ~3-5 min (GPU)
+- **Full Mode (`--epochs 10`):** 10 epochs, batch size 32, ~10-15 min (GPU)
 
 **Optimizer:** AdamW with linear warmup
 **Loss Function:** Cross-Entropy Loss
 **Evaluation Strategy:** Evaluate after each epoch
 **Model Selection:** Best model based on validation accuracy
+**Speed Optimization:** FP16 mixed precision (when GPU available)
 
 ### 3.4 Training Process
 
 1. **Data Loading:** Load train/val datasets with tokenization
 2. **Model Setup:** Initialize DistilBERT with LoRA adapters
-3. **Training Loop:** Train for up to 10 epochs with early stopping
+3. **Training Loop:** Train for 1-10 epochs (configurable) with early stopping
 4. **Validation:** Evaluate on validation set after each epoch
 5. **Best Model:** Save model with highest validation accuracy
 6. **Checkpointing:** Save tokenizer and label mappings
 
-**Expected Training Time:**
-- GPU (8GB VRAM): ~10-15 minutes
+**Training Time (Optimized):**
+- Quick mode: 2-3 minutes (GPU) / 8-10 minutes (CPU)
+- Standard (3 epochs): 3-5 minutes (GPU) / 10-15 minutes (CPU)
+- Full (10 epochs): ~10-15 minutes (GPU) / 30-45 minutes (CPU)
 - CPU (16GB RAM): ~30-45 minutes
 
 ## 4. Evaluation Methodology

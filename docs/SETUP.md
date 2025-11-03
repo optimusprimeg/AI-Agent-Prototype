@@ -61,18 +61,30 @@ python src/data_generator.py
 
 ### Step 2: Train the Model
 
+**Quick Training (Recommended for Testing):**
+```bash
+python src/models/fine_tuned_model.py --quick
+```
+
+**Standard Training (Default, Good Balance):**
 ```bash
 python src/models/fine_tuned_model.py
 ```
 
-**Training Time:**
-- GPU (8GB VRAM): 10-15 minutes
-- CPU (16GB RAM): 30-45 minutes
+**Full Training (Production Quality):**
+```bash
+python src/models/fine_tuned_model.py --epochs 10
+```
+
+**Training Time (Optimized):**
+- Quick mode (1 epoch): 2-3 minutes (GPU) / 8-10 minutes (CPU)
+- Standard (3 epochs): 3-5 minutes (GPU) / 10-15 minutes (CPU)
+- Full (10 epochs): 10-15 minutes (GPU) / 30-45 minutes (CPU)
 
 **Output:**
 - Trained model in `models/expense_classifier/`
 - Training logs
-- Model achieves >80% accuracy on validation set
+- Model achieves >80% accuracy on validation set (even with quick training)
 
 ### Step 3: Evaluate the Model
 

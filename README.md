@@ -60,7 +60,18 @@ This creates training, validation, and test datasets in `data/processed/`.
 python src/models/fine_tuned_model.py
 ```
 
-Training takes approximately 10-15 minutes on GPU or 30-45 minutes on CPU.  
+**Training Options (Optimized for Speed):**
+```bash
+# Quick training (1 epoch, ~2-3 min GPU / 8-10 min CPU)
+python src/models/fine_tuned_model.py --quick
+
+# Standard training (3 epochs, ~3-5 min GPU / 10-15 min CPU) - DEFAULT
+python src/models/fine_tuned_model.py
+
+# Full training (10 epochs for production, ~10-15 min GPU / 30-45 min CPU)
+python src/models/fine_tuned_model.py --epochs 10
+```
+
 The trained model is saved to `models/expense_classifier/`.
 
 #### 3. Evaluate the Model
