@@ -1,0 +1,22 @@
+{
+  "label2id": {
+    "Education": 0,
+    "Entertainment": 1,
+    "Food": 2,
+    "Healthcare": 3,
+    "Housing": 4,
+    "Shopping": 5,
+    "Transportation": 6,
+    "Utilities": 7
+  },
+  "id2label": {
+    "0": "Education",
+    "1": "Entertainment",
+    "2": "Food",
+    "3": "Healthcare",
+    "4": "Housing",
+    "5": "Shopping",
+    "6": "Transportation",
+    "7": "Utilities"
+  }
+}

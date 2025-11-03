@@ -7,12 +7,21 @@ from typing import List, Dict
 import sys
 from pathlib import Path
 
-# Add parent directory to path for imports
-if __name__ == "__main__":
-    sys.path.append(str(Path(__file__).parent.parent))
-    from utils.preprocessor import ReceiptPreprocessor
-else:
+# Import ReceiptPreprocessor with robust fallbacks so the module works
+# both when run as a script and when imported as a package.
+try:
+    # Preferred when running as a package (python -m src.agents.planner)
     from ..utils.preprocessor import ReceiptPreprocessor
+except Exception:
+    try:
+        # Absolute import when 'src' is on PYTHONPATH or running from project root
+        from src.utils.preprocessor import ReceiptPreprocessor
+    except Exception:
+        # Final fallback: try top-level utils (works if src is the CWD)
+        try:
+            from utils.preprocessor import ReceiptPreprocessor
+        except Exception as e:
+            raise ImportError(f"Could not import ReceiptPreprocessor: {e}")
 
 
 class PlannerAgent:

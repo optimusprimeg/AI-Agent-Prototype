@@ -1,0 +1,9 @@
+{
+  "accuracy": 0.9388888888888889,
+  "precision_weighted": 0.9413521457965904,
+  "recall_weighted": 0.9388888888888889,
+  "f1_weighted": 0.9384757416831854,
+  "avg_confidence": 0.8994893511136373,
+  "total_samples": 180,
+  "classification_report": "                precision    recall  f1-score   support\n\n     Education       1.00      1.00      1.00        13\n Entertainment       0.85      0.88      0.87        26\n          Food       0.91      0.97      0.94        33\n    Healthcare       1.00      1.00      1.00        20\n       Housing       0.93      0.82      0.88        17\n      Shopping       0.91      1.00      0.96        32\nTransportation       1.00      0.95      0.97        20\n     Utilities       1.00      0.84      0.91        19\n\n      accuracy                           0.94       180\n     macro avg       0.95      0.93      0.94       180\n  weighted avg       0.94      0.94      0.94       180\n"
+}

@@ -5,12 +5,22 @@ Responsible for executing the categorization tasks using the fine-tuned model.
 
 from typing import Dict, List
 from pathlib import Path
-import sys
 
-# Add parent directory to path for imports
-sys.path.append(str(Path(__file__).parent.parent))
-
-from models.fine_tuned_model import ExpenseCategorizationModel
+# Import ExpenseCategorizationModel with fallbacks so this module works both
+# when executed as a script and when imported as a package.
+try:
+    # Preferred when running as a package
+    from ..models.fine_tuned_model import ExpenseCategorizationModel
+except Exception:
+    try:
+        # Absolute import with 'src' on PYTHONPATH or when running from project root
+        from src.models.fine_tuned_model import ExpenseCategorizationModel
+    except Exception:
+        try:
+            # Top-level import when script directory is src
+            from models.fine_tuned_model import ExpenseCategorizationModel
+        except Exception as e:
+            raise ImportError(f"Could not import ExpenseCategorizationModel: {e}")
 
 
 class ExecutorAgent:

@@ -13,7 +13,19 @@ from sklearn.metrics import (
     confusion_matrix
 )
 import numpy as np
-from models.fine_tuned_model import ExpenseCategorizationModel
+try:
+    # Package-relative (when running as package)
+    from ..models.fine_tuned_model import ExpenseCategorizationModel
+except Exception:
+    try:
+        # Absolute import when 'src' is on PYTHONPATH or running from project root
+        from src.models.fine_tuned_model import ExpenseCategorizationModel
+    except Exception:
+        try:
+            # Top-level import when script directory is src
+            from models.fine_tuned_model import ExpenseCategorizationModel
+        except Exception as e:
+            raise ImportError(f"Could not import ExpenseCategorizationModel: {e}")
 
 
 class ModelEvaluator:

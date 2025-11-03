@@ -275,12 +275,30 @@ class ExpenseCategorizationModel:
         # Save model
         self.save_model(output_dir)
         
-        # Create visualizations
+        # Create visualizations (support package-style and script-style invocation)
+        # When this module is executed as a script (python src/models/fine_tuned_model.py)
+        # relative imports (from ..utils...) will fail with "attempted relative import"
+        # so try multiple import styles and fall back gracefully.
+        create_all_visualizations = None
         try:
+            # Preferred: package-relative import when running as a package (python -m src.models.fine_tuned_model)
             from ..utils.visualizer import create_all_visualizations
-            create_all_visualizations(output_dir, train_path.parent)
-        except Exception as e:
-            print(f"Note: Could not create visualizations: {e}")
+        except Exception:
+            try:
+                # Try absolute import assuming 'src' is on PYTHONPATH
+                from src.utils.visualizer import create_all_visualizations
+            except Exception:
+                try:
+                    # Fallback: top-level import if running with project root on sys.path
+                    from utils.visualizer import create_all_visualizations
+                except Exception as e:
+                    print(f"Note: Could not import visualizer to create visualizations: {e}")
+
+        if create_all_visualizations:
+            try:
+                create_all_visualizations(output_dir, train_path.parent)
+            except Exception as e:
+                print(f"Note: Could not create visualizations: {e}")
         
         return train_result
     
