@@ -1,0 +1,129 @@
+# Interaction Logs: AI Agent Development Process
+
+This file documents the simulated interactions and prompts used during the development of the AI Agent Expense Categorization System.
+
+## Session 1: Initial Planning and Architecture Design
+
+**Date:** 2024-11-03
+**Focus:** System architecture and component design
+
+### Prompt 1: System Architecture Design
+
+User: I need to design an AI agent system for categorizing personal expenses from receipt text. The system should have reasoning, planning, and execution phases. What architecture would you recommend?
+
+Response: I recommend a multi-agent architecture with the following components:
+
+1. Planner Agent (Reasoning & Planning):
+   - Analyzes receipt structure
+   - Extracts individual items  
+   - Creates categorization tasks
+
+2. Executor Agent (Execution):
+   - Uses fine-tuned model for categorization
+   - Processes tasks from Planner
+   - Returns results with confidence scores
+
+3. Fine-Tuned Model:
+   - Base: DistilBERT (lightweight, efficient)
+   - Method: LoRA for parameter-efficient fine-tuning
+   - Task: Sequence classification (8 expense categories)
+
+This architecture separates concerns: planning logic, execution, and ML model.
+
+### Prompt 2: Model Selection
+
+User: Why should I use LoRA for fine-tuning instead of full fine-tuning?
+
+Response: LoRA (Low-Rank Adaptation) offers several advantages:
+
+1. Parameter Efficiency:
+   - Only ~0.5% of parameters are trainable
+   - Base model weights remain frozen
+   - Adds small trainable matrices
+
+2. Resource Benefits:
+   - Works on consumer-grade hardware
+   - Faster training (10-15 minutes on GPU)
+   - Smaller checkpoint sizes (~100MB vs several GB)
+
+3. Quality:
+   - Prevents catastrophic forgetting
+   - Maintains pre-trained knowledge
+   - Achieves comparable performance to full fine-tuning
+
+4. Practical:
+   - Easy experimentation
+   - Can maintain multiple task adaptations
+   - Efficient deployment
+
+For expense categorization, LoRA provides the right balance of efficiency and performance.
+
+---
+
+## Session 2: Implementation Details
+
+**Date:** 2024-11-03
+**Focus:** Component implementation
+
+### Prompt 3: Training Configuration
+
+User: What hyperparameters should I use for training?
+
+Response: Recommended configuration:
+
+LoRA Settings:
+- Rank (r): 16
+- Alpha: 32
+- Dropout: 0.1
+- Target modules: q_lin, v_lin
+
+Training Settings:
+- Epochs: 10 with early stopping
+- Batch size: 16
+- Learning rate: 2e-5
+- Max sequence length: 128 tokens
+
+This balances training time, quality, and resource usage.
+
+### Prompt 4: Evaluation Metrics
+
+User: How should I evaluate the model?
+
+Response: Use both quantitative and qualitative metrics:
+
+Quantitative:
+- Accuracy (target >80%)
+- Precision, Recall, F1-Score (target >75%)
+- Per-category metrics
+- Confusion matrix
+
+Qualitative:
+- Manual review of 10 samples
+- Error pattern analysis
+- Confidence calibration check
+
+This provides comprehensive assessment of model performance.
+
+---
+
+## Session 3: Testing and Deployment
+
+**Date:** 2024-11-03
+**Focus:** System testing
+
+### Prompt 5: End-to-End Testing
+
+User: How do I test the complete system?
+
+Response: Follow this workflow:
+
+1. Generate data: python src/data_generator.py
+2. Train model: python src/models/fine_tuned_model.py
+3. Evaluate: python src/evaluate.py
+4. Run CLI: python src/main.py --mode interactive
+
+Test both interactive and batch modes for complete coverage.
+
+---
+
+**End of Interaction Logs**
