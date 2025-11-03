@@ -1,10 +1,6 @@
 # AI Agent Prototype for Expense Categorization
 
-**Student Name:** Optimus Prime  
-**University:** Autonomous University  
-**Department:** Computer Science  
-**Assignment:** DS Internship - AI Agent Development
-
+**Student Name:** Yash Kumar
 ## Project Overview
 
 This project implements an AI agent system that automates the categorization of personal expenses from receipt text. The system uses a fine-tuned language model with a multi-agent architecture to reason about receipts, plan categorization tasks, and execute classifications into predefined expense categories.

@@ -1,5 +1,8 @@
 # Data Science Report: Expense Categorization Model
 
+
+
+
 ## Executive Summary
 
 This report documents the development, training, and evaluation of a fine-tuned language model for automated expense categorization. The model achieves high accuracy in classifying receipt items into predefined expense categories using parameter-efficient fine-tuning with LoRA on DistilBERT.
